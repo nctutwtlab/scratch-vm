@@ -4,7 +4,7 @@ const jsonpAdapter = require('axios-jsonp');
 
 // const ArgumentType = require('../../extension-support/argument-type');
 const BlockType = require('../../extension-support/block-type');
-// const log = require('../../util/log');
+const log = require('../../util/log');
 
 class Scratch3SippRabboniBlocks {
     constructor (runtime) {
@@ -169,7 +169,11 @@ class Scratch3SippRabboniBlocks {
             method: 'get',
             url: 'http://localhost:8080/services/thing/status/system',
             adapter: jsonpAdapter
-        }).then(res => res.data.status);
+        }).then(res => res.data.status)
+            .catch(err => {
+                log.error(err);
+                return 'NOT_READY';
+            });
     }
 
     getStoredCount () {
