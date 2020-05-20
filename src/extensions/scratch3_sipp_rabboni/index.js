@@ -158,6 +158,18 @@ class Scratch3SippRabboniBlocks {
                     disableMonitor: true,
                     arguments: {},
                     func: 'getGyroZ'
+                },
+                {
+                    opcode: 'HandGes',
+                    text: formatMessage({
+                        id: 'sippRabboni.HandGes',
+                        default: 'HandGes',
+                        description: 'HandGes'
+                    }),
+                    blockType: BlockType.REPORTER,
+                    disableMonitor: true,
+                    arguments: {},
+                    func: 'getHand'
                 }
             ],
             menus: {}
@@ -244,6 +256,14 @@ class Scratch3SippRabboniBlocks {
         return axios({
             method: 'get',
             url: 'http://localhost:8080/services/pedometer/data/gz',
+            adapter: jsonpAdapter
+        }).then(res => res.data.value);
+    }
+
+    getHand () {
+        return axios({
+            method: 'get',
+            url: 'http://localhost:8080/services/pedometer/data/handges',
             adapter: jsonpAdapter
         }).then(res => res.data.value);
     }
