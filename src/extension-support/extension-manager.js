@@ -23,7 +23,9 @@ const builtinExtensions = {
     ev3: () => require('../extensions/scratch3_ev3'),
     makeymakey: () => require('../extensions/scratch3_makeymakey'),
     boost: () => require('../extensions/scratch3_boost'),
-    gdxfor: () => require('../extensions/scratch3_gdx_for')
+    gdxfor: () => require('../extensions/scratch3_gdx_for'),
+    rabboni: () => require('../extensions/scratch3_rabboni'), // Rabboni Extension
+    webserialArduino: () => require('../extensions/scratch3_webserialArduino'),
 };
 
 /**
