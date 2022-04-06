@@ -50,33 +50,33 @@ let send_color_data = '';
 // this is common to all board types since it contains enough
 // entries for all the boards.
 // Modes are listed above - initialize to invalid mode of -1
-let pin_modes = new Array(30).fill(-1);
+// let pin_modes = new Array(30).fill(-1);
 
-// has an websocket message already been received
-let alerted = false;
+// // has an websocket message already been received
+// let alerted = false;
 
-let connection_pending = false;
+// let connection_pending = false;
 
-// general outgoing websocket message holder
-//let msg = null;
+// // general outgoing websocket message holder
+// //let msg = null;
 
-// the pin assigned to the sonar trigger
-// initially set to -1, an illegal value
-let sonar_report_pin = -1;
+// // the pin assigned to the sonar trigger
+// // initially set to -1, an illegal value
+// let sonar_report_pin = -1;
 
-//estea flag to indicate if the user connected to a board
-let connected = true;
+// //estea flag to indicate if the user connected to a board
+// let connected = true;
 
-// arrays to hold input values
-let digital_inputs = new Array(32);
-let analog_inputs = new Array(8);
+// // arrays to hold input values
+// let digital_inputs = new Array(32);
+// let analog_inputs = new Array(8);
 
-// flag to indicate if a websocket connect was
-// ever attempted.
-let connect_attempt = false;
+// // flag to indicate if a websocket connect was
+// // ever attempted.
+// let connect_attempt = false;
 
-// an array to buffer operations until socket is opened
-let wait_open = [];
+// // an array to buffer operations until socket is opened
+// let wait_open = [];
 
 let the_locale = null;
 //pms5003

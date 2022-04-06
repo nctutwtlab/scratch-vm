@@ -283,7 +283,7 @@ class Scratch3RabboniBlocks {
         const rabData = this._getCertainRabData(args.RAB_NAME);
         // log.debug('getStoredCount', rabData);
         // eslint-disable-next-line no-undefined
-        if (rabData === undefined) return 'NOT_READY';
+        if (rabData === undefined) return -1;
         return rabData.count[1];
     }
 
@@ -291,7 +291,7 @@ class Scratch3RabboniBlocks {
         // log.debug('getAcc', args);
         const rabData = this._getCertainRabData(args.RAB_NAME);
         // eslint-disable-next-line no-undefined
-        if (rabData === undefined) return 'NOT_READY';
+        if (rabData === undefined) return 0.00;
         switch (args.ACC) {
         case 'accX':
             return rabData.acc[0];
@@ -308,7 +308,7 @@ class Scratch3RabboniBlocks {
         // log.debug('getGyr', args);
         const rabData = this._getCertainRabData(args.RAB_NAME);
         // eslint-disable-next-line no-undefined
-        if (rabData === undefined) return 'NOT_READY';
+        if (rabData === undefined) return 0.00;
         switch (args.GYR) {
         case 'gyrX':
             return rabData.gyr[0];
@@ -324,7 +324,7 @@ class Scratch3RabboniBlocks {
     getTrigger (args) {
         const rabData = this._getCertainRabData(args.RAB_NAME);
         // eslint-disable-next-line no-undefined
-        if (rabData === undefined) return 'NOT_READY';
+        if (rabData === undefined) return false;
         return rabData.trigger;
         return axios({
             method: 'get',
