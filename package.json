@@ -12,7 +12,7 @@
   "main": "./dist/node/scratch-vm.js",
   "browser": "./src/index.js",
   "scripts": {
-    "build": "npm run docs && webpack --progress --colors --bail",
+    "build": "cross-env NODE_OPTIONS=--openssl-legacy-provider npm run docs && webpack --progress --colors --bail",
     "coverage": "tap ./test/{unit,integration}/*.js --coverage --coverage-report=lcov",
     "deploy": "touch playground/.nojekyll && gh-pages -t -d playground -m \"Build for $(git log --pretty=format:%H -n1)\"",
     "docs": "jsdoc -c .jsdoc.json",
@@ -20,12 +20,12 @@
     "i18n:push": "tx-push-src scratch-editor extensions translations/core/en.json",
     "lint": "eslint . && format-message lint src/**/*.js",
     "prepublish": "in-publish && npm run build || not-in-publish",
-    "start": "webpack-dev-server",
+    "start": "cross-env NODE_OPTIONS=--openssl-legacy-provider webpack-dev-server",
     "tap": "tap ./test/{unit,integration}/*.js",
     "tap:unit": "tap ./test/unit/*.js",
     "tap:integration": "tap ./test/integration/*.js",
     "test": "npm run lint && npm run docs && npm run tap",
-    "watch": "webpack --progress --colors --watch",
+    "watch": "cross-env NODE_OPTIONS=--openssl-legacy-provider webpack --progress --colors --watch",
     "version": "json -f package.json -I -e \"this.repository.sha = '$(git log -n1 --pretty=format:%H)'\""
   },
   "dependencies": {
@@ -58,6 +58,7 @@
     "babel-loader": "^8.0.4",
     "callsite": "^1.0.0",
     "copy-webpack-plugin": "^4.5.4",
+    "cross-env": "^10.1.0",
     "docdash": "^1.0.0",
     "eslint": "^5.3.0",
     "eslint-config-scratch": "^5.0.0",
