@@ -8,7 +8,7 @@ const log = require('../../util/log');
 
 class Scratch3SippRabboniBlocks {
     constructor (runtime) {
-        log.info('VERSION AT 2021.4.6');
+        log.info('VERSION AT 2025.11.21');
         /**
          * The runtime instantiating this block package.
          * @type {Runtime}
@@ -104,8 +104,8 @@ class Scratch3SippRabboniBlocks {
                     opcode: 'status',
                     text: formatMessage({
                         id: 'sippRabboni.statusBlock',
-                        default: '[RAB_NAME] status',
-                        description: 'Current sipp status'
+                        default: '[RAB_NAME] sensor settings',
+                        description: 'Sensor settings for this Rabboni'
                     }),
                     blockType: BlockType.REPORTER,
                     arguments: {
@@ -120,8 +120,8 @@ class Scratch3SippRabboniBlocks {
                     opcode: 'deviceInfo',
                     text: formatMessage({
                         id: 'sippRabboni.deviceInfoBlock',
-                        default: '[RAB_NAME] info',
-                        description: 'Current sipp deviceInfo'
+                        default: '[RAB_NAME] about sensor',
+                        description: 'Information about this Rabboni sensor'
                     }),
                     blockType: BlockType.REPORTER,
                     arguments: {
@@ -136,8 +136,8 @@ class Scratch3SippRabboniBlocks {
                     opcode: 'trigger',
                     text: formatMessage({
                         id: 'sippRabboni.triggerBlock',
-                        default: '[RAB_NAME] 驅動',
-                        description: 'Whether sipp rabboni is triggered'
+                        default: '[RAB_NAME] trigger (count of movement)',
+                        description: 'Whether the Rabboni sensor is triggered'
                     }),
                     blockType: BlockType.BOOLEAN,
                     arguments: {
@@ -152,8 +152,8 @@ class Scratch3SippRabboniBlocks {
                     opcode: 'storedCount',
                     text: formatMessage({
                         id: 'sippRabboni.storedCountBlock',
-                        default: '[RAB_NAME] 記錄數',
-                        description: 'Stored count in sipp rabboni'
+                        default: '[RAB_NAME] record (total movement)',
+                        description: 'Stored count (total movement) from Rabboni'
                     }),
                     blockType: BlockType.REPORTER,
                     disableMonitor: true,
@@ -169,8 +169,8 @@ class Scratch3SippRabboniBlocks {
                     opcode: 'acc',
                     text: formatMessage({
                         id: 'sippRabboni.acc',
-                        default: '[RAB_NAME] [ACC]',
-                        description: 'Rabboni Acc'
+                        default: '[RAB_NAME] acceleration [ACC]',
+                        description: 'Rabboni acceleration value'
                     }),
                     blockType: BlockType.REPORTER,
                     arguments: {
@@ -190,8 +190,8 @@ class Scratch3SippRabboniBlocks {
                     opcode: 'gyr',
                     text: formatMessage({
                         id: 'sippRabboni.gyr',
-                        default: '[RAB_NAME] [GYR]',
-                        description: 'Rabboni Gyr'
+                        default: '[RAB_NAME] gyro [GYR]',
+                        description: 'Rabboni gyro value'
                     }),
                     blockType: BlockType.REPORTER,
                     arguments: {
@@ -234,16 +234,16 @@ class Scratch3SippRabboniBlocks {
             menus: {
                 accList: {
                     items: [
-                        {text: '加速度 X', value: 'accX'},
-                        {text: '加速度 Y', value: 'accY'},
-                        {text: '加速度 Z', value: 'accZ'}
+                        {text: 'Acceleration X', value: 'accX'},
+                        {text: 'Acceleration Y', value: 'accY'},
+                        {text: 'Acceleration Z', value: 'accZ'}
                     ]
                 },
                 gyrList: {
                     items: [
-                        {text: '角速度 X', value: 'gyrX'},
-                        {text: '角速度 Y', value: 'gyrY'},
-                        {text: '角速度 Z', value: 'gyrZ'}
+                        {text: 'Gyro X', value: 'gyrX'},
+                        {text: 'Gyro Y', value: 'gyrY'},
+                        {text: 'Gyro Z', value: 'gyrZ'}
                     ]
                 }
             }
