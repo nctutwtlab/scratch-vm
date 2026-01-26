@@ -23,10 +23,31 @@ class Scratch3SippRabboniBlocks {
          */
         this._socket = null;
 
+        /**
+         * Reconnection attempt counter
+         * @private
+         */
+        this._reconnectAttempts = 0;
+
+        /**
+         * Maximum reconnection attempts
+         * @private
+         */
+        this._maxReconnectAttempts = 5;
+
+        /**
+         * Reconnection timeout ID
+         * @private
+         */
+        this._reconnectTimeout = null;
+
         this._newWebsocket();
 
         window.addEventListener('unload', () => {
-            if (this._socket.readyState === WebSocket.OPEN) {
+            if (this._reconnectTimeout) {
+                clearTimeout(this._reconnectTimeout);
+            }
+            if (this._socket && this._socket.readyState === WebSocket.OPEN) {
                 log.info('Close WebSocket', this._socket);
                 this._socket.close();
             }
@@ -34,21 +55,30 @@ class Scratch3SippRabboniBlocks {
     }
 
     _newWebsocket() {
-        this._socket = new WebSocket('ws://localhost:50500/rab');
-        this._socket.addEventListener('open', this._onOpen);
-        this._socket.addEventListener('error', this._onError);
-        this._socket.addEventListener('message', this._onRecvData);
-        this._socket.rabData = {};
+        try {
+            this._socket = new WebSocket('ws://localhost:50500/rab');
+            this._socket.addEventListener('open', this._onOpen.bind(this));
+            this._socket.addEventListener('error', this._onError.bind(this));
+            this._socket.addEventListener('close', this._onClose.bind(this));
+            this._socket.addEventListener('message', this._onRecvData.bind(this));
+            this._socket.rabData = {};
+        } catch (error) {
+            log.warn('Failed to create WebSocket connection:', error);
+            this._scheduleReconnect();
+        }
     }
 
     _onOpen() {
-        log.debug('_onOpen');
+        log.info('WebSocket connected to Rabboni server');
+        this._reconnectAttempts = 0;
     }
 
     _onRecvData(e) {
         try {
             const rcvData = JSON.parse(e.data);
-            this.rabData[rcvData.name] = rcvData;
+            if (this._socket && this._socket.rabData) {
+                this._socket.rabData[rcvData.name] = rcvData;
+            }
             // log.debug('_onRecvData', this);
         } catch (ex) {
             log.error(`Problem parsing json. continuing: ${ex}`);
@@ -57,7 +87,28 @@ class Scratch3SippRabboniBlocks {
     }
 
     _onError(e) {
-        log.error('_onError', e);
+        log.warn('WebSocket error - Rabboni server may not be running on ws://localhost:50500/rab');
+    }
+
+    _onClose() {
+        log.info('WebSocket connection closed');
+        this._scheduleReconnect();
+    }
+
+    _scheduleReconnect() {
+        if (this._reconnectAttempts >= this._maxReconnectAttempts) {
+            log.warn(`Max reconnection attempts (${this._maxReconnectAttempts}) reached. Please start the Rabboni server.`);
+            return;
+        }
+
+        const delay = Math.min(1000 * Math.pow(2, this._reconnectAttempts), 30000);
+        this._reconnectAttempts++;
+
+        log.info(`Scheduling reconnection attempt ${this._reconnectAttempts}/${this._maxReconnectAttempts} in ${delay}ms`);
+
+        this._reconnectTimeout = setTimeout(() => {
+            this._newWebsocket();
+        }, delay);
     }
 
     /**
@@ -262,6 +313,9 @@ class Scratch3SippRabboniBlocks {
     }
 
     _getCertainRabData(rabName) {
+        if (!this._socket || !this._socket.rabData) {
+            return undefined;
+        }
         return this._socket.rabData[rabName];
     }
 
