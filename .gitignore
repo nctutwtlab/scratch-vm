@@ -20,3 +20,11 @@ npm-*
 
 # Localization
 /translations
+
+# Claude
+.claude/
+tmpclaude*
+.agent/
+
+# dev
+.dev/current/

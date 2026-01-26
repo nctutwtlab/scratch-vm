@@ -7,8 +7,8 @@ const BlockType = require('../../extension-support/block-type');
 const log = require('../../util/log');
 
 class Scratch3SippRabboniBlocks {
-    constructor (runtime) {
-        log.info('VERSION AT 2025.11.21');
+    constructor(runtime) {
+        log.info('VERSION AT 2026.01.26');
         /**
          * The runtime instantiating this block package.
          * @type {Runtime}
@@ -33,7 +33,7 @@ class Scratch3SippRabboniBlocks {
         });
     }
 
-    _newWebsocket () {
+    _newWebsocket() {
         this._socket = new WebSocket('ws://localhost:50500/rab');
         this._socket.addEventListener('open', this._onOpen);
         this._socket.addEventListener('error', this._onError);
@@ -41,11 +41,11 @@ class Scratch3SippRabboniBlocks {
         this._socket.rabData = {};
     }
 
-    _onOpen () {
+    _onOpen() {
         log.debug('_onOpen');
     }
 
-    _onRecvData (e) {
+    _onRecvData(e) {
         try {
             const rcvData = JSON.parse(e.data);
             this.rabData[rcvData.name] = rcvData;
@@ -56,7 +56,7 @@ class Scratch3SippRabboniBlocks {
         }
     }
 
-    _onError (e) {
+    _onError(e) {
         log.error('_onError', e);
     }
 
@@ -64,14 +64,14 @@ class Scratch3SippRabboniBlocks {
      * The key to load & store a target's pen-related state.
      * @type {string}
      */
-    static get STATE_KEY () {
+    static get STATE_KEY() {
         return 'Scratch.sippRabboni';
     }
 
     /**
      * @returns {object} metadata for this extension and its blocks.
      */
-    getInfo () {
+    getInfo() {
         return {
             id: 'sippRabboni',
             color1: '#4B4A60',
@@ -100,38 +100,38 @@ class Scratch3SippRabboniBlocks {
                 //         }
                 //     }
                 // }
-                {
-                    opcode: 'status',
-                    text: formatMessage({
-                        id: 'sippRabboni.statusBlock',
-                        default: '[RAB_NAME] sensor settings',
-                        description: 'Sensor settings for this Rabboni'
-                    }),
-                    blockType: BlockType.REPORTER,
-                    arguments: {
-                        RAB_NAME: {
-                            type: ArgumentType.STRING,
-                            defaultValue: 'RAB'
-                        }
-                    },
-                    func: 'getStatus'
-                },
-                {
-                    opcode: 'deviceInfo',
-                    text: formatMessage({
-                        id: 'sippRabboni.deviceInfoBlock',
-                        default: '[RAB_NAME] about sensor',
-                        description: 'Information about this Rabboni sensor'
-                    }),
-                    blockType: BlockType.REPORTER,
-                    arguments: {
-                        RAB_NAME: {
-                            type: ArgumentType.STRING,
-                            defaultValue: 'RAB'
-                        }
-                    },
-                    func: 'getDeviceInfo'
-                },
+                // {
+                //     opcode: 'status',
+                //     text: formatMessage({
+                //         id: 'sippRabboni.statusBlock',
+                //         default: '[RAB_NAME] sensor settings',
+                //         description: 'Sensor settings for this Rabboni'
+                //     }),
+                //     blockType: BlockType.REPORTER,
+                //     arguments: {
+                //         RAB_NAME: {
+                //             type: ArgumentType.STRING,
+                //             defaultValue: 'RAB'
+                //         }
+                //     },
+                //     func: 'getStatus'
+                // },
+                // {
+                //     opcode: 'deviceInfo',
+                //     text: formatMessage({
+                //         id: 'sippRabboni.deviceInfoBlock',
+                //         default: '[RAB_NAME] about sensor',
+                //         description: 'Information about this Rabboni sensor'
+                //     }),
+                //     blockType: BlockType.REPORTER,
+                //     arguments: {
+                //         RAB_NAME: {
+                //             type: ArgumentType.STRING,
+                //             defaultValue: 'RAB'
+                //         }
+                //     },
+                //     func: 'getDeviceInfo'
+                // },
                 {
                     opcode: 'trigger',
                     text: formatMessage({
@@ -204,7 +204,8 @@ class Scratch3SippRabboniBlocks {
                             menu: 'gyrList',
                             defaultValue: 'gyrX'
                         }
-                    }
+                    },
+                    func: 'getGyr'
                 }
                 // {
                 //     opcode: 'currentCount',
@@ -234,27 +235,27 @@ class Scratch3SippRabboniBlocks {
             menus: {
                 accList: {
                     items: [
-                        {text: 'Acceleration X', value: 'accX'},
-                        {text: 'Acceleration Y', value: 'accY'},
-                        {text: 'Acceleration Z', value: 'accZ'}
+                        { text: 'Acceleration X', value: 'accX' },
+                        { text: 'Acceleration Y', value: 'accY' },
+                        { text: 'Acceleration Z', value: 'accZ' }
                     ]
                 },
                 gyrList: {
                     items: [
-                        {text: 'Gyro X', value: 'gyrX'},
-                        {text: 'Gyro Y', value: 'gyrY'},
-                        {text: 'Gyro Z', value: 'gyrZ'}
+                        { text: 'Gyro X', value: 'gyrX' },
+                        { text: 'Gyro Y', value: 'gyrY' },
+                        { text: 'Gyro Z', value: 'gyrZ' }
                     ]
                 }
             }
         };
     }
 
-    _getCertainRabData (rabName) {
+    _getCertainRabData(rabName) {
         return this._socket.rabData[rabName];
     }
 
-    getStatus (args) {
+    getStatus(args) {
         // log.debug('getStatus', this, this._socket.rabData, args);
         const rabData = this._getCertainRabData(args.RAB_NAME);
         // eslint-disable-next-line no-undefined
@@ -263,7 +264,7 @@ class Scratch3SippRabboniBlocks {
         // return 'NOT_READY';
     }
 
-    getDeviceInfo (args) {
+    getDeviceInfo(args) {
         // log.debug('getDeviceInfo', args);
         return axios({
             method: 'get',
@@ -279,7 +280,7 @@ class Scratch3SippRabboniBlocks {
             });
     }
 
-    getStoredCount (args) {
+    getStoredCount(args) {
         const rabData = this._getCertainRabData(args.RAB_NAME);
         // log.debug('getStoredCount', rabData);
         // eslint-disable-next-line no-undefined
@@ -287,41 +288,41 @@ class Scratch3SippRabboniBlocks {
         return rabData.count[1];
     }
 
-    getAcc (args) {
+    getAcc(args) {
         // log.debug('getAcc', args);
         const rabData = this._getCertainRabData(args.RAB_NAME);
         // eslint-disable-next-line no-undefined
         if (rabData === undefined) return 'NOT_READY';
         switch (args.ACC) {
-        case 'accX':
-            return rabData.acc[0];
-        case 'accY':
-            return rabData.acc[1];
-        case 'accZ':
-            return rabData.acc[2];
-        default:
-            break;
+            case 'accX':
+                return rabData.acc[0];
+            case 'accY':
+                return rabData.acc[1];
+            case 'accZ':
+                return rabData.acc[2];
+            default:
+                break;
         }
     }
 
-    getGyr (args) {
+    getGyr(args) {
         // log.debug('getGyr', args);
         const rabData = this._getCertainRabData(args.RAB_NAME);
         // eslint-disable-next-line no-undefined
         if (rabData === undefined) return 'NOT_READY';
         switch (args.GYR) {
-        case 'gyrX':
-            return rabData.gyr[0];
-        case 'gyrY':
-            return rabData.gyr[1];
-        case 'gyrZ':
-            return rabData.gyr[2];
-        default:
-            break;
+            case 'gyrX':
+                return rabData.gyr[0];
+            case 'gyrY':
+                return rabData.gyr[1];
+            case 'gyrZ':
+                return rabData.gyr[2];
+            default:
+                break;
         }
     }
 
-    getTrigger (args) {
+    getTrigger(args) {
         const rabData = this._getCertainRabData(args.RAB_NAME);
         // eslint-disable-next-line no-undefined
         if (rabData === undefined) return 'NOT_READY';
