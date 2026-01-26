@@ -136,7 +136,8 @@ class Scratch3SippRabboniBlocks {
                     opcode: 'trigger',
                     text: formatMessage({
                         id: 'sippRabboni.triggerBlock',
-                        default: '[RAB_NAME] trigger (count of movement)',
+                        default: '[RAB_NAME] trigger',
+                        // default: '[RAB_NAME] 驅動',
                         description: 'Whether the Rabboni sensor is triggered'
                     }),
                     blockType: BlockType.BOOLEAN,
@@ -153,6 +154,7 @@ class Scratch3SippRabboniBlocks {
                     text: formatMessage({
                         id: 'sippRabboni.storedCountBlock',
                         default: '[RAB_NAME] record (total movement)',
+                        // default: '[RAB_NAME] 記錄數',
                         description: 'Stored count (total movement) from Rabboni'
                     }),
                     blockType: BlockType.REPORTER,
@@ -170,6 +172,7 @@ class Scratch3SippRabboniBlocks {
                     text: formatMessage({
                         id: 'sippRabboni.acc',
                         default: '[RAB_NAME] acceleration [ACC]',
+                        // default: '[RAB_NAME] 加速度 [ACC]',
                         description: 'Rabboni acceleration value'
                     }),
                     blockType: BlockType.REPORTER,
@@ -191,6 +194,7 @@ class Scratch3SippRabboniBlocks {
                     text: formatMessage({
                         id: 'sippRabboni.gyr',
                         default: '[RAB_NAME] gyro [GYR]',
+                        // default: '[RAB_NAME] 角速度 [GYR]',
                         description: 'Rabboni gyro value'
                     }),
                     blockType: BlockType.REPORTER,
@@ -238,6 +242,9 @@ class Scratch3SippRabboniBlocks {
                         { text: 'Acceleration X', value: 'accX' },
                         { text: 'Acceleration Y', value: 'accY' },
                         { text: 'Acceleration Z', value: 'accZ' }
+                        // { text: '加速度 X', value: 'accX' },
+                        // { text: '加速度 Y', value: 'accY' },
+                        // { text: '加速度 Z', value: 'accZ' }
                     ]
                 },
                 gyrList: {
@@ -245,6 +252,9 @@ class Scratch3SippRabboniBlocks {
                         { text: 'Gyro X', value: 'gyrX' },
                         { text: 'Gyro Y', value: 'gyrY' },
                         { text: 'Gyro Z', value: 'gyrZ' }
+                        // { text: '角速度 X', value: 'gyrX' },
+                        // { text: '角速度 Y', value: 'gyrY' },
+                        // { text: '角速度 Z', value: 'gyrZ' }
                     ]
                 }
             }
